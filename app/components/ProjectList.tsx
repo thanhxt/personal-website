@@ -23,7 +23,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onSelectProject }) 
         {projects.map((project) => (
           <motion.div
             key={project.id}
-            className="bg-white border border-gray-200 p-6 rounded-lg shadow-md cursor-pointer relative overflow-hidden"
+            className="bg-white border border-gray-200 p-6 rounded-lg shadow-md cursor-pointer relative overflow-hidden transition-colors duration-300 hover:bg-blue-50"
             whileHover={{ scale: 1.02 }}
             onClick={() => onSelectProject(project)}
           >
