@@ -1,101 +1,74 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState } from 'react';
+import Leaf from './components/Leaf';
+import Header from './components/Header';
+import AboutMe from './components/AboutMe';
+import ProjectList from './components/ProjectList';
+import ProjectModal from './components/ProjectModal';
+import HackathonExperience from './components/HackathonExperience';
+
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  link: string;
+  date: string;
+}
+
+const Home: React.FC = () => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const projects: Project[] = [
+    { 
+      id: 1, 
+      title: 'Student Server', 
+      description: 'RESTful API for student data management using Java Spring, PostgreSQL, and Keycloak. Containerized with Docker and Kubernetes-ready.', 
+      link: 'https://github.com/thanhxt/StudentServer', 
+      date: 'Java-Spring, Postgres, Keycloak, Docker, Kubernetes' 
+    },
+    { 
+      id: 2, 
+      title: 'Carbon Tracing Web App', 
+      description: 'Hackathon project: Web app to track employee CO2 footprint. Python-Flask backend with HTML/CSS/JS frontend.', 
+      link: 'https://github.com/thanhxt/Roche-Hackfestival-2', 
+      date: 'Python-Flask, HTML, CSS, JavaScript' 
+    },
+    { 
+      id: 3, 
+      title: 'Snake', 
+      description: 'Classic Snake game in Java using Swing. Features growing snake, random food spawns, and score tracking.', 
+      link: 'https://github.com/thanhxt/Snake', 
+      date: 'Java-Swing' 
+    },
+  ];
+
+  const hackathon = {
+    name: "Hackfestival 2024",
+    description: "Participated in a 48-hour hackathon, developing an innovative solution for tracking the Co2 footprint for employees at Roche.",
+    achievement: "Build the Backend for the app using Flask",
+    link: "https://github.com/thanhxt/Roche-Hackfestival-2"
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="min-h-screen bg-white text-gray-800 p-8 font-sans relative overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        {[...Array(20)].map((_, i) => (
+          <Leaf key={i} delay={i * 500} />
+        ))}
+      </div>
+      <div className="max-w-4xl mx-auto relative z-10">
+        <Header />
+        <main>
+          <AboutMe />
+          <ProjectList projects={projects} onSelectProject={setSelectedProject} />
+          <HackathonExperience {...hackathon} />
+        </main>
+      </div>
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   );
-}
+};
+
+export default Home;
