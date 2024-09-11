@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
 interface LeafProps {
@@ -7,20 +7,23 @@ interface LeafProps {
 
 const Leaf: React.FC<LeafProps> = ({ delay }) => {
   const controls = useAnimation();
+  const isMounted = useRef(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    isMounted.current = true;
+    
     const animate = async () => {
-      // Add delay before starting animation
+      if (!isMounted.current) return;
+      
       await new Promise(resolve => setTimeout(resolve, delay));
       
-      while (true) {
+      while (isMounted.current) {
         const startY = Math.random() * 100;
         const curveY = (Math.random() - 0.5) * 30;
         const duration = Math.random() * 15 + 2;
-        //const duration = 20;
 
         await controls.start({
-          x: ['0vw', '100vw'],
+          x: ['-10vw', '100vw'],
           y: [startY + 'vh', `calc(${startY}vh + ${curveY}px)`],
           rotate: [0, 360],
           transition: { 
@@ -28,12 +31,15 @@ const Leaf: React.FC<LeafProps> = ({ delay }) => {
             ease: [0.43, 0.13, 0.23, 0.96]
           }
         });
-
-        controls.set({ x: '-10vw' });
       }
     };
 
-    animate();
+    // Wrap the animate call in a setTimeout to ensure it runs after the current render cycle
+    setTimeout(animate, 0);
+
+    return () => {
+      isMounted.current = false;
+    };
   }, [controls, delay]);
 
   return (

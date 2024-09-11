@@ -1,24 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Leaf from './components/Leaf';
 import Header from './components/Header';
 import AboutMe from './components/AboutMe';
-import ProjectList from './components/ProjectList';
 import ProjectModal from './components/ProjectModal';
 import HackathonExperience from './components/HackathonExperience';
+import ContactButton from './components/ContactButton';
+import { Project, Hackathon } from './types';
+import Projects from './components/Projects';
 
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  link: string;
-  date: string;
-}
-
-const Home: React.FC = () => {
+export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const projects: Project[] = [
     { 
@@ -44,31 +38,40 @@ const Home: React.FC = () => {
     },
   ];
 
-  const hackathon = {
+  const hackathon: Hackathon = {
     name: "Hackfestival 2024",
     description: "Participated in a 48-hour hackathon, developing an innovative solution for tracking the Co2 footprint for employees at Roche.",
     achievement: "Build the Backend for the app using Flask",
     link: "https://github.com/thanhxt/Roche-Hackfestival-2"
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+  }
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
+
   return (
-    <div className="min-h-screen bg-white text-gray-800 p-8 font-sans relative overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        {[...Array(20)].map((_, i) => (
-          <Leaf key={i} delay={i * 500} />
-        ))}
-      </div>
+    <div className={`min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-8 font-sans relative overflow-hidden transition-colors duration-300`}>
+      {[...Array(20)].map((_, i) => (
+        <Leaf key={i} delay={i * 0.5} />
+      ))}
       <div className="max-w-4xl mx-auto relative z-10">
-        <Header />
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <main>
           <AboutMe />
-          <ProjectList projects={projects} onSelectProject={setSelectedProject} />
-          <HackathonExperience {...hackathon} />
+          <Projects projects={projects} onSelectProject={setSelectedProject} />  
+          <HackathonExperience hackathon={hackathon} />
+          <ContactButton />
         </main>
       </div>
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
-  );
-};
-
-export default Home;
+  )
+}

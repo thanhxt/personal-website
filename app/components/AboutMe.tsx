@@ -4,8 +4,8 @@ import { ChevronRight } from 'lucide-react';
 const AboutMe: React.FC = () => {
   return (
     <section className="mb-16">
-      <h2 className="text-3xl font-semibold mb-4">About Me</h2>
-      <p className="text-gray-600 mb-4 max-w-2xl">
+      <h2 className="text-3xl font-semibold mb-4 dark:text-gray-200">About Me</h2>
+      <p className="text-gray-600 mb-4 max-w-2xl dark:text-gray-400">
       I&apos;m currently a computer science &amp; business major at Hochschule Karlsruhe. I have a passion for coding, learning, and building.
       <br />
       <br />

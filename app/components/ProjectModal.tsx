@@ -1,13 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
+import { Project } from '../types';
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  link: string;
-  date: string;
+interface ProjectModalProps {
+  project: Project | null;
+  onClose: () => void;
 }
 
 interface ProjectModalProps {
@@ -50,7 +48,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
         </div>
       </motion.div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default ProjectModal;
+export default ProjectModal
