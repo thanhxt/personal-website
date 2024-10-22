@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, showBackButto
           <Github className="h-6 w-6" />
           <span className="sr-only">GitHub</span>
         </a>
-        <a href="/path-to-your-resume.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+        <a href="/githubresume.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
           <FileText className="h-6 w-6" />
           <span className="sr-only">Resume</span>
         </a>
